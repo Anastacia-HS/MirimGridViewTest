@@ -1,5 +1,6 @@
 package kr.hs.e_mirim.s2019s04.mirimgridviewtest;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return imgRes.length;
     }
 
     @Override
@@ -33,10 +34,26 @@ public class GridAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imgv = new ImageView(context);
-        imgv.setLayoutParams(new GridView.LayoutParams(200, 300));
+        imgv.setLayoutParams(new GridView.LayoutParams(300, 400));
         imgv.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imgv.setPadding(5, 5, 5, 5);
         imgv.setImageResource(imgRes[position]);
+
+        final int pos = position;
+        imgv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View dialogView = View.inflate(context, R.layout.dialog, null);
+                AlertDialog.Builder dlg = new AlertDialog.Builder(context);
+                ImageView imgvPoster = dialogView.findViewById(R.id.imgv_dialog);
+                imgvPoster.setImageResource(imgRes[pos]);
+                dlg.setTitle("큰 포스터");
+                dlg.setIcon(R.mipmap.ic_launcher);
+                dlg.setView(dialogView);
+                dlg.setNegativeButton("닫기", null);
+                dlg.show();
+            }
+        });
 
         return imgv;
     }
